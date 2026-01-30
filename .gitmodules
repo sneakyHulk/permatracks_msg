@@ -1,0 +1,3 @@
+[submodule "external/common"]
+	path = external/common
+	url = https://github.com/sneakyHulk/common.git

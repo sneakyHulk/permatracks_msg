@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.22)
-
 project(permatracks_msg)
 
 set(CMAKE_CXX_STANDARD 23)
+
+include(FetchContent)
+
+FetchContent_Declare(common SOURCE_DIR ${PROJECT_SOURCE_DIR}/external/common)
+FetchContent_MakeAvailable(common)
+add_library(common_${PROJECT_NAME} ALIAS common)
+set_target_properties(common PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 add_library(${PROJECT_NAME}
         src/Position.cpp
@@ -19,6 +25,7 @@ add_library(${PROJECT_NAME}
         src/Array.cpp
         src/Magnet.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC include)
+target_link_libraries(${PROJECT_NAME} PUBLIC common_${PROJECT_NAME})
 
 add_executable(test_${PROJECT_NAME}
         test/test_msg.cpp)

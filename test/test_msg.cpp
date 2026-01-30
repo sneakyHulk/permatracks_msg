@@ -13,9 +13,12 @@
 #include <Position.h>
 
 #include <cstdlib>
+#include <iostream>
 #include <sstream>
 
 int main() {
+	std::cout <<Message<Box<double, double>>{{{1, 2}}, 1000000000000000000, "main",} << std::endl;
+
 	if ((std::ostringstream{} << Array<double, 3>{1.0, 2.0, 3.0}).str() != "[1, 2, 3]") return EXIT_FAILURE;
 	if ((std::ostringstream{} << Magnet{1.2, 0.05, 1.4}).str() != "{'H': 1.2, 'R': 0.05, 'Br': 1.4}") return EXIT_FAILURE;
 	if ((std::ostringstream{} << Direction{1.0, 2.0}).str() != "{'theta': 1, 'phi': 2}") return EXIT_FAILURE;

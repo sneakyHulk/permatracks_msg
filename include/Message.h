@@ -1,5 +1,7 @@
 #pragma once
 
+#include <common_time.h>
+
 #include <cstdint>
 #include <ostream>
 
@@ -11,7 +13,7 @@ struct Message : public Type {
 
 template <typename Type>
 std::ostream& operator<<(std::ostream& os, Message<Type> const& msg) {
-	os << "{'timestamp': " << msg.timestamp << ", 'src': " << msg.src << ", 'data': " << static_cast<Type const&>(msg) << "}";
+	os << "{'timestamp': " << common::from_uint64_t(msg.timestamp) << ", 'src': " << msg.src << ", 'data': " << static_cast<Type const&>(msg) << "}";
 
 	return os;
 }
