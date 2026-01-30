@@ -13,12 +13,10 @@
 #include <Position.h>
 
 #include <cstdlib>
-#include <iostream>
+#include <ostream>
 #include <sstream>
 
 int main() {
-	std::cout <<Message<Box<double, double>>{{{1, 2}}, 1000000000000000000, "main",} << std::endl;
-
 	if ((std::ostringstream{} << Array<double, 3>{1.0, 2.0, 3.0}).str() != "[1, 2, 3]") return EXIT_FAILURE;
 	if ((std::ostringstream{} << Magnet{1.2, 0.05, 1.4}).str() != "{'H': 1.2, 'R': 0.05, 'Br': 1.4}") return EXIT_FAILURE;
 	if ((std::ostringstream{} << Direction{1.0, 2.0}).str() != "{'theta': 1, 'phi': 2}") return EXIT_FAILURE;
@@ -31,8 +29,13 @@ int main() {
 	if ((std::ostringstream{} << MagneticFluxDensityDataRawMMC5983MA{7, 8, 9}).str() != "{'x': 7, 'y': 8, 'z': 9}") return EXIT_FAILURE;
 	if ((std::ostringstream{} << Position{7., 8., 9.}).str() != "{'x': 7, 'y': 8, 'z': 9}") return EXIT_FAILURE;
 	if ((std::ostringstream{} << Pack{Position{7., 8., 9.}, Value<double>{1.0}}).str() != "{{'x': 7, 'y': 8, 'z': 9}, 1}") return EXIT_FAILURE;
+#if __has_include(<common_time.h>)
+	if ((std::ostringstream{} << Message<Box<double, double>>{{{1, 2}}, 0, "main",}).str() != (std::ostringstream{} << "{'timestamp': " << std::chrono::system_clock::time_point(std::chrono::system_clock::duration::zero())  << ", 'src': main, 'data': (1, 2)}").str())
+		return EXIT_FAILURE;
+#else
 	if ((std::ostringstream{} << Message<Box<double, double>>{{{1, 2}}, 2, "main",}).str() != "{'timestamp': 2, 'src': main, 'data': (1, 2)}")
 		return EXIT_FAILURE;
+#endif
 
 	return EXIT_SUCCESS;
 }
