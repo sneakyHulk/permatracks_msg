@@ -14,7 +14,13 @@ std::ostream& operator<<(std::ostream& os, Value<T> const& v) {
 }
 
 template <typename... Types>
-requires(std::is_class_v<Types> && ...) struct Pack : public Types... {};
+#ifdef __cpp_concepts
+requires(std::is_class_v<Types> && ...) struct Pack : public Types... {
+};
+#else
+struct Pack : public Types... {
+};
+#endif
 
 template <typename... Types>
 std::ostream& operator<<(std::ostream& os, Pack<Types...> const& msg) {
