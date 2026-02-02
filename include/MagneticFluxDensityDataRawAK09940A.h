@@ -6,10 +6,9 @@
 struct MagneticFluxDensityDataRawAK09940A {
 	union {
 		struct {
-			std::int32_t x : 18;
-			std::int32_t y : 18;
+			std::int32_t x : 19;
+			std::int32_t y : 19;
 			std::int32_t z : 18;
-			std::uint8_t reserved : 2;
 		};
 		struct {
 			std::uint8_t bytes[7];
