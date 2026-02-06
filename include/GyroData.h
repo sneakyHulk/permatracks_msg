@@ -2,9 +2,9 @@
 #include <ostream>
 
 struct GyroData {
-	float x;
-	float y;
-	float z;
+	float gx;
+	float gy;
+	float gz;
 };
 
 std::ostream& operator<<(std::ostream& os, GyroData const& gyro_data);

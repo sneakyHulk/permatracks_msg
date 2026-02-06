@@ -4,10 +4,10 @@
 
 #pragma pack(push, 1)
 struct RotationQuaternion {
-	float x;
-	float y;
-	float z;
-	float w;
+	float rx;
+	float ry;
+	float rz;
+	float rw;
 };
 #pragma pack(pop)
 

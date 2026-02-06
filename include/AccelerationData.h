@@ -2,9 +2,9 @@
 #include <ostream>
 
 struct AccelerationData {
-	float x;
-	float y;
-	float z;
+	float ax;
+	float ay;
+	float az;
 };
 
 

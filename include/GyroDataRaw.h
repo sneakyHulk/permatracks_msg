@@ -7,9 +7,9 @@
 struct GyroDataRaw {
 	union {
 		struct {
-			std::int16_t x;
-			std::int16_t y;
-			std::int16_t z;
+			std::int16_t gx;
+			std::int16_t gy;
+			std::int16_t gz;
 		};
 		struct {
 			std::uint8_t bytes[6];

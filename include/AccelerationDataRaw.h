@@ -7,9 +7,9 @@
 struct AccelerationDataRaw {
 	union {
 		struct {
-			std::int16_t x;
-			std::int16_t y;
-			std::int16_t z;
+			std::int16_t ax;
+			std::int16_t ay;
+			std::int16_t az;
 		};
 		struct {
 			std::uint8_t bytes[6];
