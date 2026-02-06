@@ -19,6 +19,11 @@ add_library(${PROJECT_NAME}
         src/MagneticFluxDensityDataRawAK09940A.cpp
         src/MagneticFluxDensityData.cpp
         src/MagneticFluxDensityIntegerData.cpp
+        src/AccelerationData.cpp
+        src/AccelerationDataRaw.cpp
+        src/GyroData.cpp
+        src/GyroDataRaw.cpp
+        src/RotationQuaternion.cpp
         src/Message.cpp
         src/Pack.cpp
         src/Box.cpp
