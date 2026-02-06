@@ -1,6 +1,6 @@
 #include "AccelerationData.h"
 
 std::ostream& operator<<(std::ostream& os, AccelerationData const& acceleration) {
-	os << "{'x': " << acceleration.ax << ", 'y': " << acceleration.ay << ", 'z': " << acceleration.az << "}";
+	os << "{'ax': " << acceleration.ax << ", 'ay': " << acceleration.ay << ", 'az': " << acceleration.az << "}";
 	return os;
 }

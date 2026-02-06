@@ -1,6 +1,6 @@
 #include "RotationQuaternion.h"
 
 std::ostream& operator<<(std::ostream& os, RotationQuaternion const& quaternion) {
-	os << "{'x': " << quaternion.rx << ", 'y': " << quaternion.ry << ", 'z': " << quaternion.rz << ", 'w': " << quaternion.rw << "}";
+	os << "{'rx': " << quaternion.rx << ", 'ry': " << quaternion.ry << ", 'rz': " << quaternion.rz << ", 'rw': " << quaternion.rw << "}";
 	return os;
 }
