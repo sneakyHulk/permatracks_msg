@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <ostream>
+#include <array>
 
 #pragma pack(push, 1)
 struct GyroDataRaw {
