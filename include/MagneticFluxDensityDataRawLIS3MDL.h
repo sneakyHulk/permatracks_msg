@@ -10,7 +10,7 @@ struct MagneticFluxDensityDataRawLIS3MDL {
 			std::int16_t y;
 			std::int16_t z;
 		};
-		std::uint8_t bytes[6];
+		std::array<std::uint8_t, 6> bytes;
 	};
 };
 #pragma pack(pop)

@@ -11,12 +11,8 @@ struct GyroDataRaw {
 			std::int16_t gy;
 			std::int16_t gz;
 		};
-		struct {
-			std::uint8_t bytes[6];
-		};
-		struct {
-			std::int16_t arr[3];
-		};
+		std::array<std::uint8_t, 6> bytes;
+		std::array<std::int16_t, 6> arr;
 	};
 };
 #pragma pack(pop)

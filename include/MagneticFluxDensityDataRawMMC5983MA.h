@@ -10,9 +10,7 @@ struct MagneticFluxDensityDataRawMMC5983MA {
 			std::int32_t y : 19;
 			std::int32_t z : 18;
 		};
-		struct {
-			std::uint8_t bytes[7];
-		};
+		std::array<std::uint8_t, 7> bytes;
 	};
 };
 #pragma pack(pop)
