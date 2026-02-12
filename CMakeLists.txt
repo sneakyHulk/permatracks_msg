@@ -28,7 +28,10 @@ add_library(${PROJECT_NAME}
         src/Pack.cpp
         src/Box.cpp
         src/Array.cpp
-        src/Magnet.cpp)
+        src/Magnet.cpp
+        src/GyroBiasVector.cpp
+        src/GravityVector.cpp
+)
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_link_libraries(${PROJECT_NAME} PUBLIC common_${PROJECT_NAME})
 
