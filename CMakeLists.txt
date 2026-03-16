@@ -33,11 +33,11 @@ add_library(${PROJECT_NAME}
         src/GravityVector.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC include)
-target_link_libraries(${PROJECT_NAME} PUBLIC common_${PROJECT_NAME})
 
 add_executable(test_${PROJECT_NAME}
         test/test_msg.cpp)
 target_link_libraries(test_${PROJECT_NAME} PUBLIC ${PROJECT_NAME})
+target_link_libraries(test_${PROJECT_NAME} PRIVATE common_${PROJECT_NAME})
 
 enable_testing()
 
