@@ -24,6 +24,7 @@ add_library(${PROJECT_NAME}
         src/GyroData.cpp
         src/GyroDataRaw.cpp
         src/RotationQuaternion.cpp
+        src/Distortion.cpp
         src/Message.cpp
         src/Pack.cpp
         src/Box.cpp
