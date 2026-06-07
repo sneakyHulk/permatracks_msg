@@ -8,5 +8,7 @@ struct Distortion {
 	DirectionVector direction;
 
 	bool operator==(Distortion const& other) const;
+	bool operator<(Distortion const& other) const;
+	bool operator>(Distortion const& other) const;
 };
 std::ostream& operator<<(std::ostream& os, Distortion const& p);
