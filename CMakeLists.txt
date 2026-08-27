@@ -32,6 +32,7 @@ add_library(${PROJECT_NAME}
         src/Magnet.cpp
         src/GyroBiasVector.cpp
         src/GravityVector.cpp
+        src/GroundTruthTransformationMatrix.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
