@@ -16,9 +16,13 @@ std::ostream& operator<<(std::ostream& os, Value<T> const& v) {
 template <typename... Types>
 #ifdef __cpp_concepts
 requires(std::is_class_v<Types> && ...) struct Pack : public Types... {
+	template <typename T> T&       get()       { return static_cast<T&>(*this); }
+	template <typename T> T const& get() const { return static_cast<T const&>(*this); }
 };
 #else
 struct Pack : public Types... {
+	template <typename T> T&       get()       { return static_cast<T&>(*this); }
+	template <typename T> T const& get() const { return static_cast<T const&>(*this); }
 };
 #endif
 

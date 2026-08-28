@@ -19,7 +19,6 @@ struct GroundTruthTransformationMatrix {
 			double tm9;
 			double tm10;
 			double tm11;
-			double tm12;
 		};
 		std::array<std::uint8_t, 12 * sizeof(double)> bytes;
 		std::array<double, 12> arr;
