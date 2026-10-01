@@ -33,6 +33,7 @@ add_library(${PROJECT_NAME}
         src/GyroBiasVector.cpp
         src/GravityVector.cpp
         src/GroundTruthTransformationMatrix.cpp
+        src/TemperatureDatapointRaw.cpp
 )
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 
