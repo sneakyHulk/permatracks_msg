@@ -4,7 +4,7 @@
 #include <ostream>
 
 #pragma pack(push, 1)
-struct TemperatureDatapointRaw {
+struct TemperatureDataRaw {
 	union {
 		struct {
 			std::uint16_t datapoint;  // 12-bit ADC code (0..4095) in 16 bits
@@ -14,4 +14,4 @@ struct TemperatureDatapointRaw {
 };
 #pragma pack(pop)
 
-std::ostream& operator<<(std::ostream& os, TemperatureDatapointRaw const& d);
+std::ostream& operator<<(std::ostream& os, TemperatureDataRaw const& d);
