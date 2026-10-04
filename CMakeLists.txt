@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME}
         src/MagneticFluxDensityDataRawLIS3MDL.cpp
         src/MagneticFluxDensityDataRawMMC5983MA.cpp
         src/MagneticFluxDensityDataRawAK09940A.cpp
+        src/MagneticFluxDensityDataRawFLC100.cpp
         src/MagneticFluxDensityData.cpp
         src/MagneticFluxDensityIntegerData.cpp
         src/AccelerationData.cpp
