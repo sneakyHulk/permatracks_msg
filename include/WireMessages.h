@@ -15,10 +15,11 @@
 //   fixed size:    [tag][header][fields][crc16][tag], the packed struct is the payload
 //   variable size: [tag][header][payload: n][n][crc16][tag]
 // Every message derives from Header and has a static constexpr char tag.
+// Header::timestamp is always the time the sender sends the message, measurements carry their own measurement_timestamp.
 
 #pragma pack(push, 1)
 struct Header {
-	std::uint64_t timestamp;
+	std::uint64_t timestamp;  // sender's time when the message is sent
 };
 
 // device -> host, timestamp = t0: device time when the request is sent
@@ -32,14 +33,15 @@ struct TimeSyncResponseWireMessage : Header {
 	std::uint64_t t1;  // host time when the request was received
 };
 
-// host -> device, USB SOF time sync: timestamp = host time at the start of USB frame `frame`, one frame lasts ps_per_frame in host time
+// host -> device, USB SOF time sync: USB frame `frame` started at host time frame_ns, one frame lasts ps_per_frame in host time
 struct SofSyncWireMessage : Header {
 	static constexpr char tag = 'S';
-	std::uint16_t frame;  // 11-bit USB frame number
+	std::uint64_t frame_ns;  // host time at the start of the frame
+	std::uint16_t frame;     // 11-bit USB frame number
 	std::uint32_t ps_per_frame;
 };
 
-// device -> host, both device clocks read right after each other (host time in ns), the header stays empty
+// device -> host, both device clocks read right after each other (host time in ns)
 struct TimeCompareWireMessage : Header {
 	static constexpr char tag = 'C';
 	std::uint64_t ntp_ns;  // NtpClock
@@ -49,6 +51,7 @@ struct TimeCompareWireMessage : Header {
 template <std::size_t N, typename T> // can be MagneticFluxDensityDataRawAK09940A
 struct MagneticFluxDensityRawWireMessage : Header {
 	static constexpr char tag = 'M';
+	std::uint64_t measurement_timestamp;  // when the values were measured
 	std::int32_t scale;
 	std::array<T, N> data;
 };
@@ -56,6 +59,7 @@ struct MagneticFluxDensityRawWireMessage : Header {
 template <std::size_t N>
 struct TemperatureDataRawWireMessage : Header {
 	static constexpr char tag = 'T';
+	std::uint64_t measurement_timestamp;  // when the values were measured
 	float offset;
 	float scale;
 	std::array<TemperatureDataRaw, N> data;
@@ -63,28 +67,33 @@ struct TemperatureDataRawWireMessage : Header {
 
 struct AccelerationWireMessage : Header {
 	static constexpr char tag = 'A';
+	std::uint64_t measurement_timestamp;  // when the values were measured
 	float scale;
 	std::int16_t ax, ay, az;
 };
 
 struct GyroWireMessage : Header {
 	static constexpr char tag = 'G';
+	std::uint64_t measurement_timestamp;  // when the values were measured
 	float scale;
 	std::int16_t gx, gy, gz;
 };
 
 struct QuaternionWireMessage : Header {
 	static constexpr char tag = 'Q';
+	std::uint64_t measurement_timestamp;  // when the values were measured
 	RotationQuaternion data;
 };
 
 struct GravityWireMessage : Header {
 	static constexpr char tag = 'V';
+	std::uint64_t measurement_timestamp;  // when the values were measured
 	GravityVector data;
 };
 
 struct GyroBiasWireMessage : Header {
 	static constexpr char tag = 'B';
+	std::uint64_t measurement_timestamp;  // when the values were measured
 	GyroBiasVector data;
 };
 #pragma pack(pop)
