@@ -39,6 +39,13 @@ struct SofSyncWireMessage : Header {
 	std::uint32_t ps_per_frame;
 };
 
+// device -> host, both device clocks read right after each other (host time in ns), the header stays empty
+struct TimeCompareWireMessage : Header {
+	static constexpr char tag = 'C';
+	std::uint64_t ntp_ns;  // NtpClock
+	std::uint64_t sof_ns;  // UsbSofClock
+};
+
 template <std::size_t N, typename T> // can be MagneticFluxDensityDataRawAK09940A
 struct MagneticFluxDensityRawWireMessage : Header {
 	static constexpr char tag = 'M';
