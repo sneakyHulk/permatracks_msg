@@ -32,6 +32,13 @@ struct TimeSyncResponseWireMessage : Header {
 	std::uint64_t t1;  // host time when the request was received
 };
 
+// host -> device, USB SOF time sync: timestamp = host time at the start of USB frame `frame`, one frame lasts ps_per_frame in host time
+struct SofSyncWireMessage : Header {
+	static constexpr char tag = 'S';
+	std::uint16_t frame;  // 11-bit USB frame number
+	std::uint32_t ps_per_frame;
+};
+
 template <std::size_t N, typename T> // can be MagneticFluxDensityDataRawAK09940A
 struct MagneticFluxDensityRawWireMessage : Header {
 	static constexpr char tag = 'M';
