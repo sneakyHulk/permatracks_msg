@@ -41,11 +41,12 @@ struct SofSyncWireMessage : Header {
 	std::uint32_t ps_per_frame;
 };
 
-// device -> host, both device clocks read right after each other (host time in ns)
+// device -> host, all device clocks read right after each other (host time in ns)
 struct TimeCompareWireMessage : Header {
 	static constexpr char tag = 'C';
-	std::uint64_t ntp_ns;  // NtpClock
-	std::uint64_t sof_ns;  // UsbSofClock
+	std::uint64_t ntp_ns;     // NtpClock
+	std::uint64_t sof_ns;     // UsbSofClock (with sub-ms)
+	std::uint64_t sof_ms_ns;  // UsbSofMsClock (start of the current ms)
 };
 
 template <std::size_t N, typename T> // can be MagneticFluxDensityDataRawAK09940A
