@@ -41,12 +41,12 @@ struct SofSyncWireMessage : Header {
 	std::uint32_t ps_per_frame;
 };
 
-// device -> host, all device clocks read right after each other (host time in ns)
+// device -> host, two device clocks read right after each other (host time in ns), the host compares them with its arrival
+// time and with each other. Which clocks they are is up to the device (mag-array-v3: time1 = UsbSofClock, time2 = UsbSofMsClock).
 struct TimeCompareWireMessage : Header {
 	static constexpr char tag = 'C';
-	std::uint64_t ntp_ns;     // NtpClock
-	std::uint64_t sof_ns;     // UsbSofClock (with sub-ms)
-	std::uint64_t sof_ms_ns;  // UsbSofMsClock (start of the current ms)
+	std::uint64_t time1_ns;
+	std::uint64_t time2_ns;
 };
 
 // host -> device, ping: timestamp = t0, host (mach) time when the ping is sent
@@ -54,13 +54,13 @@ struct PingRequestWireMessage : Header {
 	static constexpr char tag = 'P';
 };
 
-// device -> host, answered right away: both SOF clocks read when the ping was received, t0 sent back.
-// The SOF time must lie between t0 and the host's receive time t3, whatever the transfer takes.
+// device -> host, answered right away: one clock read when the ping was received, t0 sent back. For several clocks the device
+// sends one answer each, in a fixed order with the same t0 (mag-array-v3: 1st = UsbSofClock, 2nd = UsbSofMsClock).
+// The clock's time must lie between t0 and the host's receive time t3, whatever the transfer takes.
 struct PingResponseWireMessage : Header {
 	static constexpr char tag = 'P';
-	std::uint64_t t0;         // timestamp of the PingRequestWireMessage
-	std::uint64_t sof_ns;     // UsbSofClock when the ping was received
-	std::uint64_t sof_ms_ns;  // UsbSofMsClock when the ping was received
+	std::uint64_t t0;       // timestamp of the PingRequestWireMessage
+	std::uint64_t time_ns;  // the clock when the ping was received
 };
 
 template <std::size_t N, typename T> // can be MagneticFluxDensityDataRawAK09940A
