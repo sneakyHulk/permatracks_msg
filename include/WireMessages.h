@@ -42,7 +42,7 @@ struct SofSyncWireMessage : Header {
 };
 
 // device -> host, two device clocks read right after each other (host time in ns), the host compares them with its arrival
-// time and with each other. Which clocks they are is up to the device (mag-array-v3: time1 = UsbSofClock, time2 = UsbSofMsClock).
+// time and with each other. Which clocks they are is up to the device (mag-array-v3-time: two UsbSofClock::now() right after each other).
 struct TimeCompareWireMessage : Header {
 	static constexpr char tag = 'C';
 	std::uint64_t time1_ns;
@@ -54,8 +54,7 @@ struct PingRequestWireMessage : Header {
 	static constexpr char tag = 'P';
 };
 
-// device -> host, answered right away: one clock read when the ping was received, t0 sent back. For several clocks the device
-// sends one answer each, in a fixed order with the same t0 (mag-array-v3: 1st = UsbSofClock, 2nd = UsbSofMsClock).
+// device -> host, answered right away: one clock read when the ping was received, t0 sent back.
 // The clock's time must lie between t0 and the host's receive time t3, whatever the transfer takes.
 struct PingResponseWireMessage : Header {
 	static constexpr char tag = 'P';
