@@ -49,6 +49,20 @@ struct TimeCompareWireMessage : Header {
 	std::uint64_t sof_ms_ns;  // UsbSofMsClock (start of the current ms)
 };
 
+// host -> device, ping: timestamp = t0, host (mach) time when the ping is sent
+struct PingRequestWireMessage : Header {
+	static constexpr char tag = 'P';
+};
+
+// device -> host, answered right away: both SOF clocks read when the ping was received, t0 sent back.
+// The SOF time must lie between t0 and the host's receive time t3, whatever the transfer takes.
+struct PingResponseWireMessage : Header {
+	static constexpr char tag = 'P';
+	std::uint64_t t0;         // timestamp of the PingRequestWireMessage
+	std::uint64_t sof_ns;     // UsbSofClock when the ping was received
+	std::uint64_t sof_ms_ns;  // UsbSofMsClock when the ping was received
+};
+
 template <std::size_t N, typename T> // can be MagneticFluxDensityDataRawAK09940A
 struct MagneticFluxDensityRawWireMessage : Header {
 	static constexpr char tag = 'M';
