@@ -3,6 +3,8 @@
 #include <GravityVector.h>
 #include <GyroBiasVector.h>
 #include <MagneticFluxDensityDataRawAK09940A.h>
+#include <MagneticFluxDensityDataRawLIS3MDL.h>
+#include <MagneticFluxDensityDataRawMMC5983MA.h>
 #include <RotationQuaternion.h>
 
 #include <array>
@@ -68,6 +70,16 @@ struct MagneticFluxDensityRawWireMessage : Header {
 	std::uint64_t measurement_timestamp;  // when the values were measured
 	std::int32_t scale;
 	std::array<T, N> data;
+};
+
+// mag-array-v1: 16 LIS3MDL and 25 MMC5983MA in one message, each block with its own scale (LSB per T)
+struct MagArrayV1MagneticFluxDensityRawWireMessage : Header {
+	static constexpr char tag = 'M';
+	std::uint64_t measurement_timestamp;  // when the values were measured
+	std::int32_t scale_lis3mdl;
+	std::array<MagneticFluxDensityDataRawLIS3MDL, 16> lis3mdl;
+	std::int32_t scale_mmc5983ma;
+	std::array<MagneticFluxDensityDataRawMMC5983MA, 25> mmc5983ma;
 };
 
 template <std::size_t N>
