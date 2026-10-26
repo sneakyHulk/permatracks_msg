@@ -43,6 +43,11 @@ struct SofSyncWireMessage : Header {
 	std::uint32_t ps_per_frame;
 };
 
+// device -> host: please send a SofSyncWireMessage (mag-array-v3; at the start, and again whenever the device wants a new one)
+struct SofSyncRequestWireMessage : Header {
+	static constexpr char tag = 'S';
+};
+
 // device -> host, two device clocks read right after each other (host time in ns), the host compares them with its arrival
 // time and with each other. Which clocks they are is up to the device (mag-array-v3-time: two UsbSofClock::now() right after each other).
 struct TimeCompareWireMessage : Header {
