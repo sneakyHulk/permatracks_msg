@@ -17,11 +17,12 @@
 //   fixed size:    [tag][header][fields][crc16][tag], the packed struct is the payload
 //   variable size: [tag][header][payload: n][n][crc16][tag]
 // Every message derives from Header and has a static constexpr char tag.
-// Header::timestamp is always the time the sender sends the message, measurements carry their own measurement_timestamp.
+// Header::timestamp is the time of the content: for measurements when they were measured (the IMU sensor fusion has no time of its own:
+// when the device read it from its FIFO), for everything else when the sender sends the message (NTP needs exactly that).
 
 #pragma pack(push, 1)
 struct Header {
-	std::uint64_t timestamp;  // sender's time when the message is sent
+	std::uint64_t timestamp;  // measurements: when measured, everything else: when sent (sender's time)
 };
 
 // device -> host, timestamp = t0: device time when the request is sent
@@ -72,7 +73,6 @@ struct PingResponseWireMessage : Header {
 template <std::size_t N, typename T> // can be MagneticFluxDensityDataRawAK09940A
 struct MagneticFluxDensityRawWireMessage : Header {
 	static constexpr char tag = 'M';
-	std::uint64_t measurement_timestamp;  // when the values were measured
 	std::int32_t scale;
 	std::array<T, N> data;
 };
@@ -80,7 +80,6 @@ struct MagneticFluxDensityRawWireMessage : Header {
 // mag-array-v1: 16 LIS3MDL and 25 MMC5983MA in one message, each block with its own scale (LSB per T)
 struct MagArrayV1MagneticFluxDensityRawWireMessage : Header {
 	static constexpr char tag = 'M';
-	std::uint64_t measurement_timestamp;  // when the values were measured
 	std::int32_t scale_lis3mdl;
 	std::array<MagneticFluxDensityDataRawLIS3MDL, 16> lis3mdl;
 	std::int32_t scale_mmc5983ma;
@@ -90,7 +89,6 @@ struct MagArrayV1MagneticFluxDensityRawWireMessage : Header {
 template <std::size_t N>
 struct TemperatureDataRawWireMessage : Header {
 	static constexpr char tag = 'T';
-	std::uint64_t measurement_timestamp;  // when the values were measured
 	float offset;
 	float scale;
 	std::array<TemperatureDataRaw, N> data;
@@ -98,33 +96,28 @@ struct TemperatureDataRawWireMessage : Header {
 
 struct AccelerationWireMessage : Header {
 	static constexpr char tag = 'A';
-	std::uint64_t measurement_timestamp;  // when the values were measured
 	float scale;
 	std::int16_t ax, ay, az;
 };
 
 struct GyroWireMessage : Header {
 	static constexpr char tag = 'G';
-	std::uint64_t measurement_timestamp;  // when the values were measured
 	float scale;
 	std::int16_t gx, gy, gz;
 };
 
 struct QuaternionWireMessage : Header {
 	static constexpr char tag = 'Q';
-	std::uint64_t measurement_timestamp;  // when the values were measured
 	RotationQuaternion data;
 };
 
 struct GravityWireMessage : Header {
 	static constexpr char tag = 'V';
-	std::uint64_t measurement_timestamp;  // when the values were measured
 	GravityVector data;
 };
 
 struct GyroBiasWireMessage : Header {
 	static constexpr char tag = 'B';
-	std::uint64_t measurement_timestamp;  // when the values were measured
 	GyroBiasVector data;
 };
 #pragma pack(pop)
